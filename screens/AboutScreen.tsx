@@ -10,8 +10,9 @@ export default function AboutScreen({ navigation }: any) {
       </Text>
 
       <Text style={styles.body}>Features:</Text>
-      <Text style={styles.body}>• Create Notes</Text>
-      <Text style={styles.body}>• View Notes</Text>
+      <Text style={styles.body}>• Add Tasks</Text>
+      <Text style={styles.body}>• Mark Tasks as Done</Text>
+      <Text style={styles.body}>• Delete Tasks</Text>
 
       <Pressable
         style={styles.button}

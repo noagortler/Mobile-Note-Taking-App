@@ -1,25 +1,48 @@
 import { View, Text, Pressable, StyleSheet, TextInput, ScrollView } from "react-native";
 import { useState } from "react";
-import NoteCard from "../components/NoteCard";
+import TaskCard from "../components/TaskCard";
+
+type Task = {
+  id: string;
+  text: string;
+  completed: boolean;
+};
 
 export default function HomeScreen({ navigation }: any) {
   const [input, setInput] = useState("");
-  const [notes, setNotes] = useState<string[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState("");
 
-  function addNote() {
+  function addTask() {
     if (input.trim() === "") {
-      setError("Please write something before adding a note.");
+      setError("Please write something before adding a task.");
       return;
     }
     setError("");
-    setNotes([...notes, input.trim()]);
+    const newTask: Task = {
+      id: Date.now().toString(),
+      text: input.trim(),
+      completed: false,
+    };
+    setTasks([...tasks, newTask]);
     setInput("");
+  }
+
+  function toggleTask(id: string) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  }
+
+  function deleteTask(id: string) {
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Notes</Text>
+      <Text style={styles.title}>My To-Do List</Text>
 
       <Pressable
         style={styles.button}
@@ -29,24 +52,30 @@ export default function HomeScreen({ navigation }: any) {
       </Pressable>
 
       <View style={styles.inputCard}>
-        <Text style={styles.sectionTitle}>New Note</Text>
+        <Text style={styles.sectionTitle}>New Task</Text>
         <TextInput
           style={styles.input}
-          placeholder="Write a note..."
+          placeholder="Add a task..."
           placeholderTextColor="#5c9ead99"
           value={input}
           onChangeText={setInput}
           multiline
         />
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <Pressable style={styles.button} onPress={addNote}>
-          <Text style={styles.buttonText}>Add Note</Text>
+        <Pressable style={styles.button} onPress={addTask}>
+          <Text style={styles.buttonText}>Add Task</Text>
         </Pressable>
       </View>
 
-      <ScrollView style={styles.notesContainer}>
-        {notes.map((item, index) => (
-          <NoteCard key={index} note={item} />
+      <ScrollView style={styles.tasksContainer}>
+        {tasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            text={task.text}
+            completed={task.completed}
+            onToggle={() => toggleTask(task.id)}
+            onDelete={() => deleteTask(task.id)}
+          />
         ))}
       </ScrollView>
     </View>
@@ -108,7 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-  notesContainer: {
+  tasksContainer: {
     flex: 1,
   },
 });
