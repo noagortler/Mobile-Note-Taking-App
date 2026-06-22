@@ -3,16 +3,29 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 export default function AboutScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>About This App</Text>
+      <Text style={styles.title}>About</Text>
+      <Text style={styles.subtitle}>Built with React Native & Expo</Text>
 
-      <Text style={styles.body}>
-        This app was built using React Native and Expo.
-      </Text>
+      <Text style={styles.sectionTitle}>Features</Text>
 
-      <Text style={styles.body}>Features:</Text>
-      <Text style={styles.body}>• Add Tasks</Text>
-      <Text style={styles.body}>• Mark Tasks as Done</Text>
-      <Text style={styles.body}>• Delete Tasks</Text>
+      <View style={styles.featureList}>
+        <View style={styles.featureItem}>
+          <View style={styles.dot} />
+          <Text style={styles.featureText}>Add and manage your tasks</Text>
+        </View>
+        <View style={styles.featureItem}>
+          <View style={styles.dot} />
+          <Text style={styles.featureText}>Mark tasks as done</Text>
+        </View>
+        <View style={styles.featureItem}>
+          <View style={styles.dot} />
+          <Text style={styles.featureText}>Delete tasks</Text>
+        </View>
+        <View style={styles.featureItem}>
+          <View style={styles.dot} />
+          <Text style={styles.featureText}>Get random task suggestions</Text>
+        </View>
+      </View>
 
       <Pressable
         style={styles.button}
@@ -32,25 +45,54 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
     color: "#326273",
+    marginBottom: 4,
   },
-  body: {
-    fontSize: 18,
-    marginBottom: 10,
+  subtitle: {
+    fontSize: 13,
+    color: "#5c9ead",
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#326273",
+    marginBottom: 12,
+  },
+  featureList: {
+    gap: 10,
+    marginBottom: 20,
+  },
+  featureItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#5c9ead",
+  },
+  featureText: {
+    fontSize: 14,
     color: "#326273",
   },
   button: {
-    backgroundColor: "#5c9ead",
-    padding: 14,
-    borderRadius: 8,
-    marginTop: 20,
+    backgroundColor: "#326273",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 999,
     alignItems: "center",
+    justifyContent: "center",
+    minHeight: 44,
+    marginTop: 8,
   },
   buttonText: {
     color: "#ffffff",
-    fontWeight: "bold",
+    fontSize: 14,
+    fontWeight: "600",
   },
 });

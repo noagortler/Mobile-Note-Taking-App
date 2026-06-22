@@ -26,7 +26,6 @@ export default function HomeScreen({ navigation }: any) {
   async function loadTasks() {
     try {
       const savedTasks = await AsyncStorage.getItem("tasks");
-
       if (savedTasks) {
         setTasks(JSON.parse(savedTasks));
       }
@@ -94,23 +93,31 @@ export default function HomeScreen({ navigation }: any) {
     saveTasks(updatedTasks);
   }
 
+  const completedCount = tasks.filter((task) => task.completed).length;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My To-Do List</Text>
-
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("About")}
-      >
-        <Text style={styles.buttonText}>About</Text>
-      </Pressable>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>My To-Do List</Text>
+          <Text style={styles.summary}>
+            {tasks.length} {tasks.length === 1 ? "task" : "tasks"}, {completedCount} done
+          </Text>
+        </View>
+        <Pressable
+          style={styles.aboutButton}
+          onPress={() => navigation.navigate("About")}
+        >
+          <Text style={styles.buttonText}>About</Text>
+        </Pressable>
+      </View>
 
       <View style={styles.inputCard}>
         <Text style={styles.sectionTitle}>New Task</Text>
         <TextInput
           style={styles.input}
-          placeholder="Add a task..."
-          placeholderTextColor="#5c9ead99"
+          placeholder="Write a task..."
+          placeholderTextColor="#326273"
           value={input}
           onChangeText={setInput}
           multiline
@@ -153,56 +160,80 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     backgroundColor: "#ffffff",
   },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     marginBottom: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#326273",
+    marginBottom: 4,
+  },
+  summary: {
+    fontSize: 13,
     color: "#326273",
   },
+  aboutButton: {
+    backgroundColor: "#326273",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 999,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 44,
+  },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 13,
+    fontWeight: "600",
     marginBottom: 8,
     color: "#326273",
   },
   inputCard: {
     backgroundColor: "#EBF4F6",
-    padding: 16,
-    borderRadius: 12,
+    padding: 14,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: "#5c9ead",
-    marginBottom: 24,
+    marginBottom: 16,
   },
   input: {
     backgroundColor: "#ffffff",
     borderWidth: 1,
     borderColor: "#5c9ead",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    minHeight: 80,
+    borderRadius: 999,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    fontSize: 14,
+    minHeight: 44,
     textAlignVertical: "top",
     color: "#326273",
+    marginBottom: 10,
   },
   errorText: {
     color: "#C0392B",
     fontSize: 13,
-    marginTop: 6,
+    marginBottom: 8,
   },
   button: {
-    backgroundColor: "#5c9ead",
-    padding: 14,
-    borderRadius: 8,
+    backgroundColor: "#326273",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 999,
     alignItems: "center",
-    marginBottom: 12,
+    justifyContent: "center",
+    marginBottom: 8,
+    minHeight: 44,
   },
   randomButton: {
-    backgroundColor: "#326273",
+    backgroundColor: "#001F3F",
     marginBottom: 0,
   },
   buttonText: {
     color: "#ffffff",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   tasksContainer: {
