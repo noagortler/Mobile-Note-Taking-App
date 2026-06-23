@@ -84,10 +84,20 @@ export default function HomeScreen({ navigation }: any) {
     saveTasks(updatedTasks);
   }
 
-  function deleteTask(id: string) {
+  async function deleteTask(id: string) {
+    // remove the task locally first so the UI updates immediately
     const updatedTasks = tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
+
+    // log the deletion to the API
+    try {
+      await fetch("https://dummyjson.com/posts/1", {
+        method: "DELETE",
+      });
+    } catch {
+      console.log("Unable to log deletion.");
+    }
   }
 
   const completedCount = tasks.filter((task) => task.completed).length;
